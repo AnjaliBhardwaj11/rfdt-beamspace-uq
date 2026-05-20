@@ -63,8 +63,31 @@ Update these fields:
 - `forward.ply_path`: path to the RF-3DGS point cloud
 - `sionna.scene_xml`: Sionna scene file (Mitsuba-style XML)
 - `forward.freq_hz`, `forward.tx_pos_m`, `forward.array`: must match the RF-3DGS training settings
+- `preprocess.*`: optional settings for visual/RF dataset generation
 
-## 6. Run the Pipeline
+## 6. Optional RF-3DGS Preprocessing
+
+If you need to regenerate RF-3DGS training datasets, use the preprocessing scripts below. You must provide the mesh assets referenced by the scene XML (copy RF-3DGS `meshes_d` into `scenes/meshes_d`, or update the paths).
+
+Visual dataset (Blender):
+
+```bash
+blender -b -P scripts/preprocessing/generate_visual_dataset.py -- --config uq_config.json
+```
+
+RF dataset from Sionna:
+
+```bash
+python scripts/preprocessing/sionna_onetx.py --config uq_config.json --ideal --spectrum-type mpc --output-dir dataset_ideal_mpc
+```
+
+Prepare multi-TX dataset structure:
+
+```bash
+python scripts/preprocessing/prepare_rf_data_multx.py --config uq_config.json --rf-root dataset_custom_scene_ideal_mpc_with_object_txmulti
+```
+
+## 7. Run the Pipeline
 
 All commands should be run from the repository root:
 
@@ -76,7 +99,7 @@ python scripts/run_variance_validation.py --config uq_config.json --out-dir outp
 python scripts/plot_rfdt_vs_sionna_comparison.py --config uq_config.json --rfdt outputs/rfdt_beam_energy_grid.npy --sionna outputs/sionna_beam_energy_grid_aligned.npy --save-dir outputs/plots
 ```
 
-## 7. Smoke Tests
+## 8. Smoke Tests
 
 Quick validation of dependencies, config paths, and output artifacts:
 
@@ -84,7 +107,7 @@ Quick validation of dependencies, config paths, and output artifacts:
 python scripts/run_smoke_tests.py --config uq_config.json --output-dir outputs --check-outputs
 ```
 
-## 8. Troubleshooting
+## 9. Troubleshooting
 
 - **Mismatch between RFDT and Sionna**: verify `forward.freq_hz`, `forward.tx_pos_m`, and `sionna.scene_xml` match the RF-3DGS scene used for training.
 - **Sionna API errors**: use the version recommended by RF-3DGS (0.19.1) or upgrade carefully.

@@ -19,6 +19,8 @@ This repository implements scalable beamspace uncertainty propagation for RF Dig
 ## Repository Structure
 
 - `scripts/`: main pipeline entry points.
+- `scripts/preprocessing/`: RF-3DGS preprocessing utilities (visual/RF dataset generation).
+- `scenes/`: Sionna scene XML files (copy meshes to `scenes/meshes_d`).
 - `figures/`: generated results and plots for reports.
 - `requirements.txt`: Python dependencies.
 - `uq_config.example.json`: example configuration (copy to `uq_config.json`).
@@ -56,6 +58,25 @@ See `installation_usage.md` for the full environment setup and troubleshooting n
 - All hardcoded parameters have been moved to `uq_config.json` (or CLI overrides).
 - Relative paths are resolved against the config file location.
 - The Sionna alignment uses the *same* scene, frequency, array geometry, and angular grid as the RFDT forward pass, so consistency is enforced through the shared config.
+- Preprocessing scripts read `preprocess.visual`, `preprocess.rf_dataset`, and `preprocess.rf_multitx`.
+
+## RF-3DGS Preprocessing (Optional)
+
+These scripts reproduce the visual and RF datasets used in RF-3DGS training. They are optional for the RFDT pipeline but useful for regenerating the inputs.
+
+Prerequisites:
+- Blender for visual dataset generation.
+- RF-3DGS meshes copied to `scenes/meshes_d` (or update paths in `uq_config.json`).
+
+Commands (from repo root):
+
+```bash
+blender -b -P scripts/preprocessing/generate_visual_dataset.py -- --config uq_config.json
+python scripts/preprocessing/sionna_onetx.py --config uq_config.json --ideal --spectrum-type mpc --output-dir dataset_ideal_mpc
+python scripts/preprocessing/prepare_rf_data_multx.py --config uq_config.json --rf-root dataset_custom_scene_ideal_mpc_with_object_txmulti
+```
+
+`scenes/room_with_cube.xml` is based on the RF-3DGS scene file. It expects mesh assets in `scenes/meshes_d`.
 
 ## Outputs (Key Files)
 
@@ -68,15 +89,43 @@ See `installation_usage.md` for the full environment setup and troubleshooting n
 
 ## Figures
 
-![Pipeline](figures/pipeline.png)
+### Pipeline Overview
 
-![UT Dashboard](figures/uq_summary_dashboard_ut.png)
+![Pipeline Overview](figures/pipeline.png)
 
-![MC Dashboard](figures/uq_summary_dashboard_mc.png)
+### RF-3DGS Output (Reference PLY Rendering)
+
+![RF-3DGS Output](figures/rf3dgs_output.png)
+
+### RFDT vs Sionna Beam Energies
+
+**RX 000**
+
+![RFDT vs Sionna RX 000](figures/rx_000.png)
+
+**RX 017**
+
+![RFDT vs Sionna RX 017](figures/rx_017.png)
+
+**RX 069**
+
+![RFDT vs Sionna RX 069](figures/rx_069.png)
+
+### UQ Dashboards
+
+![UT UQ Dashboard](figures/uq_summary_dashboard_ut.png)
+
+![MC UQ Dashboard](figures/uq_summary_dashboard_mc.png)
+
+### Variance Geometry Metrics
 
 ![Variance Cosine Similarity](figures/variance_cosine_similarity.png)
 
+![Variance Pearson Correlation](figures/variance_pearson.png)
+
 ![Top-K Variance Energy](figures/topk_variance_energy.png)
+
+![Top-K Variance Energy Gap](figures/topk_energy_gap.png)
 
 ## Tested Environment
 

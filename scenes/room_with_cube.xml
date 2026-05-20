@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<scene version="2.1.0">
+    <emitter type="constant">
+        <rgb name="radiance" value="1.0"/>
+    </emitter>
+
+    <!-- Materials -->
+    <bsdf type="diffuse" id="mat_concrete">
+        <rgb name="reflectance" value="0.5 0.5 0.5"/>
+    </bsdf>
+    <bsdf type="diffuse" id="mat_wood">
+        <rgb name="reflectance" value="0.6 0.4 0.2"/>
+    </bsdf>
+    <bsdf type="diffuse" id="mat_glass">
+        <rgb name="reflectance" value="0.1 0.1 0.9"/>
+    </bsdf>
+    <bsdf type="diffuse" id="mat_metal">
+        <rgb name="reflectance" value="0.8 0.8 0.8"/>
+    </bsdf>
+
+    <!-- Shapes with Material References -->
+    <shape type="ply" id="floor">
+        <string name="filename" value="meshes_d/floor.ply"/>
+        <ref id="mat_concrete"/>
+    </shape>
+    
+    <shape type="ply" id="ceiling">
+        <string name="filename" value="meshes_d/ceiling.ply"/>
+        <ref id="mat_concrete"/>
+    </shape>
+    
+    <shape type="ply" id="walls">
+        <string name="filename" value="meshes_d/walls.ply"/>
+        <ref id="mat_concrete"/>
+    </shape>
+    
+    <shape type="ply" id="window">
+        <string name="filename" value="meshes_d/window.ply"/>
+        <ref id="mat_glass"/>
+    </shape>
+    
+    <shape type="ply" id="door">
+        <string name="filename" value="meshes_d/door.ply"/>
+        <ref id="mat_wood"/>
+    </shape>
+    
+    <shape type="ply" id="furniture">
+        <string name="filename" value="meshes_d/furniture.ply"/>
+        <ref id="mat_wood"/>
+    </shape>
+    
+    <shape type="ply" id="pillar">
+        <string name="filename" value="meshes_d/pillar.ply"/>
+        <ref id="mat_concrete"/>
+    </shape>
+    
+    <shape type="ply" id="furniture_center">
+        <string name="filename" value="meshes_d/furniture_center.ply"/>
+        <ref id="mat_wood"/>
+    </shape>
+    
+    <shape type="ply" id="led_tv">
+        <string name="filename" value="meshes_d/led_tv.ply"/>
+        <ref id="mat_metal"/>
+    </shape>
+    
+    <shape type="ply" id="metallic_cube">
+        <string name="filename" value="meshes_d/metallic_cube.ply"/>
+        <ref id="mat_metal"/>
+    </shape>
+</scene>
