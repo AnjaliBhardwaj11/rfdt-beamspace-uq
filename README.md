@@ -21,12 +21,30 @@ This repository is a reproducible pipeline for beamspace uncertainty propagation
 ```
 .
 ├── scripts/                       # Main pipeline entry points
+│   ├── run_rfdt_rendering.py
+│   ├── run_alignment_evaluation.py
+│   ├── run_ut_propagation.py
+│   ├── run_variance_validation.py
+│   ├── plot_rfdt_vs_sionna_comparison.py
+│   └── run_smoke_tests.py
 ├── scripts/preprocessing/         # RF-3DGS visual/RF dataset generation
+│   ├── generate_visual_dataset.py
+│   ├── sionna_onetx.py
+│   └── prepare_rf_data_multx.py
 ├── scenes/                        # Sionna scene XMLs (expects scenes/meshes_d)
+│   ├── room_with_cube.xml
+│   └── README.md
 ├── figures/                       # Output figures used in README/reports
+│   ├── pipeline.png
+│   ├── rf3dgs_output.png
+│   ├── rx_000.png
+│   ├── uq_summary_dashboard_ut.png
+│   └── variance_cosine_similarity.png
 ├── requirements.txt               # Python dependencies
+├── uq_config.py                   # Config schema + helpers
 ├── uq_config.example.json         # Example config (copy to uq_config.json)
 ├── installation_usage.md          # Full setup and usage guide
+├── LICENSE
 └── README.md
 ```
 
