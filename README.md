@@ -1,6 +1,6 @@
 # Low-Rank Nonlinear Beamspace Uncertainty Propagation for RF Digital Twins
 
-This repository implements scalable beamspace uncertainty propagation for RF Digital Twins. The pipeline uses RF-3DGS point clouds, low-rank stochastic perturbations, Unscented Transform (UT) propagation, Monte Carlo (MC) validation, and Sionna-based alignment for physics-consistent evaluation.
+This repository is a reproducible pipeline for beamspace uncertainty propagation in RF Digital Twins. It renders beamspace power from RF-3DGS point clouds, aligns with Sionna ray tracing, and propagates uncertainty using low-rank perturbations, Unscented Transform (UT), and Monte Carlo (MC) validation. The outputs include reliability metrics and risk-aware beam selection for downstream evaluation.
 
 **Important prerequisite**: the `point_cloud.ply` file used by this pipeline is produced by the RF-3DGS project. Please read the RF-3DGS repository and paper before running these scripts.
 
@@ -18,13 +18,17 @@ This repository implements scalable beamspace uncertainty propagation for RF Dig
 
 ## Repository Structure
 
-- `scripts/`: main pipeline entry points.
-- `scripts/preprocessing/`: RF-3DGS preprocessing utilities (visual/RF dataset generation).
-- `scenes/`: Sionna scene XML files (copy meshes to `scenes/meshes_d`).
-- `figures/`: generated results and plots for reports.
-- `requirements.txt`: Python dependencies.
-- `uq_config.example.json`: example configuration (copy to `uq_config.json`).
-- `installation_usage.md`: full setup and execution instructions.
+```
+.
+├── scripts/                       # Main pipeline entry points
+├── scripts/preprocessing/         # RF-3DGS visual/RF dataset generation
+├── scenes/                        # Sionna scene XMLs (expects scenes/meshes_d)
+├── figures/                       # Output figures used in README/reports
+├── requirements.txt               # Python dependencies
+├── uq_config.example.json         # Example config (copy to uq_config.json)
+├── installation_usage.md          # Full setup and usage guide
+└── README.md
+```
 
 ## Quick Start
 
@@ -99,33 +103,17 @@ python scripts/preprocessing/prepare_rf_data_multx.py --config uq_config.json --
 
 ### RFDT vs Sionna Beam Energies
 
-**RX 000**
-
 ![RFDT vs Sionna RX 000](figures/rx_000.png)
 
-**RX 017**
-
-![RFDT vs Sionna RX 017](figures/rx_017.png)
-
-**RX 069**
-
-![RFDT vs Sionna RX 069](figures/rx_069.png)
-
-### UQ Dashboards
+### UQ Dashboard (UT)
 
 ![UT UQ Dashboard](figures/uq_summary_dashboard_ut.png)
 
-![MC UQ Dashboard](figures/uq_summary_dashboard_mc.png)
-
-### Variance Geometry Metrics
+### Variance Geometry Metric
 
 ![Variance Cosine Similarity](figures/variance_cosine_similarity.png)
 
-![Variance Pearson Correlation](figures/variance_pearson.png)
-
-![Top-K Variance Energy](figures/topk_variance_energy.png)
-
-![Top-K Variance Energy Gap](figures/topk_energy_gap.png)
+Additional figures are available in the `figures/` directory.
 
 ## Tested Environment
 
