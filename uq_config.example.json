@@ -1,0 +1,89 @@
+{
+  "forward": {
+    "ply_path": "path/to/point_cloud.ply",
+    "freq_hz": 3500000000.0,
+    "tx_pos_m": [3.5, 2.5, 2.7],
+    "sh_order": 3,
+    "gaussian_chunk": 32768,
+    "rx_grid": {
+      "x_min": 0.3,
+      "x_max": 6.7,
+      "x_count": 10,
+      "y_min": 0.3,
+      "y_max": 4.7,
+      "y_count": 7,
+      "z_height": 1.2
+    },
+    "array": {
+      "nx": 8,
+      "ny": 8,
+      "az": 33,
+      "el": 11,
+      "ang_sigma": 0.15
+    }
+  },
+  "sionna": {
+    "scene_xml": "room_with_cube.xml",
+    "max_depth": 3,
+    "reflection": true,
+    "scattering": true,
+    "diffraction": false,
+    "scat_keep_prob": 0.5,
+    "num_samples": 500000,
+    "global_scattering_coeff": 4.0,
+    "materials": {
+      "mat_concrete_scat": {
+        "epsilon_r": 5.24,
+        "sigma": 0.0462,
+        "scattering_coeff": 0.1,
+        "alpha_r": 5
+      },
+      "mat_wood_scat": {
+        "epsilon_r": 1.99,
+        "sigma": 0.0047,
+        "scattering_coeff": 0.2,
+        "alpha_r": 3
+      },
+      "mat_glass_scat": {
+        "epsilon_r": 6.31,
+        "sigma": 0.0036,
+        "scattering_coeff": 0.025,
+        "alpha_r": 10
+      },
+      "mat_metal_scat": {
+        "epsilon_r": 1.0,
+        "sigma": 10000000.0,
+        "scattering_coeff": 0.025,
+        "alpha_r": 10
+      }
+    },
+    "object_material_map": [
+      {"keywords": ["floor", "walls", "ceiling", "pillar"], "material": "mat_concrete_scat"},
+      {"keywords": ["furniture", "door"], "material": "mat_wood_scat"},
+      {"keywords": ["window"], "material": "mat_glass_scat"},
+      {"keywords": ["tv", "led", "metal", "cube"], "material": "mat_metal_scat"}
+    ]
+  },
+  "uq": {
+    "rx_std_xyz_m": [0.02, 0.02, 0.01],
+    "mean_mode_std_m": 0.01,
+    "sh_mode_std_frac": 0.08,
+    "alpha_mode_std_frac": 0.06,
+    "scale_mode_std_frac": 0.05,
+    "dir_std_rad": 0.08,
+    "smooth_std": 0.1,
+    "drop_prob": 0.1,
+    "drop_width_frac": 0.1,
+    "enable_directional_uq": true,
+    "enable_smoothing": true,
+    "ut_alpha": 0.3,
+    "ut_beta": 2.0,
+    "ut_kappa": 0.0,
+    "n_modes": 4,
+    "mc_samples": 128,
+    "mc_samples_list": [128, 256, 512],
+    "seed": 1234,
+    "high_error_quantile": 0.8,
+    "report_top_n": 20
+  }
+}
