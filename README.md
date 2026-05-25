@@ -72,6 +72,14 @@ If you run from `scripts/`, pass a config path relative to that directory (for e
 
 For full setup details, see [installation_usage.md](installation_usage.md).
 
+## Troubleshooting (Common Errors)
+
+- "PLY path is empty": set `forward.ply_path` in `uq_config.json` or pass `--ply-path` to `scripts/run_rfdt_rendering.py`.
+- "PLY not found": use an absolute path or ensure the path is correct relative to the config file location.
+- Running from `scripts/` without config: pass `--config ../uq_config.json` or set `UQ_CONFIG`.
+- Sionna scene/mesh errors: ensure the mesh assets referenced by the scene XML exist under `scenes/meshes_d` or update `sionna.scene_xml` and paths in the XML.
+- CUDA issues: try `--device cpu` on `scripts/run_rfdt_rendering.py` to validate the pipeline on CPU first.
+
 ## Outputs (Key Files)
 
 - `rfdt_beam_energy_grid.npy`: RFDT beam energy in dB for all RX positions.
