@@ -1,54 +1,42 @@
 # Low-Rank Nonlinear Beamspace Uncertainty Propagation for RF Digital Twins
 
-This repository is a reproducible pipeline for beamspace uncertainty propagation in RF Digital Twins. It renders beamspace power from RF-3DGS point clouds, aligns with Sionna ray tracing, and propagates uncertainty using low-rank perturbations, Unscented Transform (UT), and Monte Carlo (MC) validation. The outputs include reliability metrics and risk-aware beam selection for downstream evaluation.
+This repository provides a reproducible pipeline for beamspace uncertainty propagation in RF Digital Twins. It renders beamspace power from RF-3DGS point clouds, aligns with Sionna ray tracing, and propagates uncertainty using low-rank perturbations, Unscented Transform (UT), and Monte Carlo (MC) validation.
 
-**Important prerequisite**: the `point_cloud.ply` file used by this pipeline is produced by the RF-3DGS project. Please read the RF-3DGS repository and paper before running these scripts.
+Important prerequisite: the `point_cloud.ply` input is produced by the RF-3DGS project.
 
 - RF-3DGS code: https://github.com/SunLab-UGA/RF-3DGS
 - RF-3DGS paper (arXiv): https://arxiv.org/abs/2411.19420
-- IEEE TWC page (accepted version): https://ieeexplore.ieee.org/document/11355734
+- IEEE TWC page: https://ieeexplore.ieee.org/document/11355734
 
-## What This Repo Provides
+## At a Glance
 
-- Beamspace forward rendering from RF-3DGS PLY files.
-- UT-based uncertainty propagation with MC diagnostics.
-- Sionna alignment with per-RX agreement metrics.
-- Reliability and risk-aware beam selection outputs.
-- Figures and plots for reporting.
+- Render RFDT beamspace power and gradients from RF-3DGS PLYs.
+- Align RFDT outputs with Sionna ray tracing.
+- Propagate uncertainty with UT and validate via MC.
+- Produce reliability metrics and risk-aware beam selection.
 
-## Repository Structure
+## Repository Layout
 
 ```
 .
-├── scripts/                       # Main pipeline entry points
+├── scripts/                       # Pipeline entry points
 │   ├── run_rfdt_rendering.py
 │   ├── run_alignment_evaluation.py
 │   ├── run_ut_propagation.py
 │   ├── run_variance_validation.py
 │   ├── plot_rfdt_vs_sionna_comparison.py
 │   └── run_smoke_tests.py
-├── scripts/preprocessing/         # RF-3DGS visual/RF dataset generation
-│   ├── generate_visual_dataset.py
-│   ├── sionna_onetx.py
-│   └── prepare_rf_data_multx.py
+├── scripts/preprocessing/         # Optional RF-3DGS data generation
 ├── scenes/                        # Sionna scene XMLs (expects scenes/meshes_d)
-│   ├── room_with_cube.xml
-│   └── README.md
-├── figures/                       # Output figures used in README/reports
-│   ├── pipeline.png
-│   ├── rf3dgs_output.png
-│   ├── rx_000.png
-│   ├── uq_summary_dashboard_ut.png
-│   └── variance_cosine_similarity.png
+├── figures/                       # Reference figures
 ├── requirements.txt               # Python dependencies
 ├── uq_config.py                   # Config schema + helpers
 ├── uq_config.example.json         # Example config (copy to uq_config.json)
 ├── installation_usage.md          # Full setup and usage guide
-├── LICENSE
 └── README.md
 ```
 
-## Quick Start
+## Quick Start (Run From Repo Root)
 
 1. Create a config file and set paths:
 
@@ -57,7 +45,7 @@ This repository is a reproducible pipeline for beamspace uncertainty propagation
    # Edit uq_config.json to set forward.ply_path and sionna.scene_xml
    ```
 
-2. Run the pipeline (from repo root):
+2. Run the pipeline:
 
    ```bash
    python scripts/run_rfdt_rendering.py --config uq_config.json --output-dir outputs
@@ -73,32 +61,16 @@ This repository is a reproducible pipeline for beamspace uncertainty propagation
    python scripts/run_smoke_tests.py --config uq_config.json --output-dir outputs --check-outputs
    ```
 
-See `installation_usage.md` for the full environment setup and troubleshooting notes.
+If you run from `scripts/`, pass a config path relative to that directory (for example `--config ../uq_config.json`).
 
-## Configuration Notes
+## Configuration Essentials
 
-- All hardcoded parameters have been moved to `uq_config.json` (or CLI overrides).
+- `forward.ply_path` must point to the RF-3DGS `point_cloud.ply`.
+- `sionna.scene_xml` must match the scene used during RF-3DGS training.
 - Relative paths are resolved against the config file location.
-- The Sionna alignment uses the *same* scene, frequency, array geometry, and angular grid as the RFDT forward pass, so consistency is enforced through the shared config.
-- Preprocessing scripts read `preprocess.visual`, `preprocess.rf_dataset`, and `preprocess.rf_multitx`.
+- You may override the PLY path via `--ply-path` on `run_rfdt_rendering.py`.
 
-## RF-3DGS Preprocessing (Optional)
-
-These scripts reproduce the visual and RF datasets used in RF-3DGS training. They are optional for the RFDT pipeline but useful for regenerating the inputs.
-
-Prerequisites:
-- Blender for visual dataset generation.
-- RF-3DGS meshes copied to `scenes/meshes_d` (or update paths in `uq_config.json`).
-
-Commands (from repo root):
-
-```bash
-blender -b -P scripts/preprocessing/generate_visual_dataset.py -- --config uq_config.json
-python scripts/preprocessing/sionna_onetx.py --config uq_config.json --ideal --spectrum-type mpc --output-dir dataset_ideal_mpc
-python scripts/preprocessing/prepare_rf_data_multx.py --config uq_config.json --rf-root dataset_custom_scene_ideal_mpc_with_object_txmulti
-```
-
-`scenes/room_with_cube.xml` is based on the RF-3DGS scene file. It expects mesh assets in `scenes/meshes_d`.
+For full setup details, see [installation_usage.md](installation_usage.md).
 
 ## Outputs (Key Files)
 
@@ -111,31 +83,13 @@ python scripts/preprocessing/prepare_rf_data_multx.py --config uq_config.json --
 
 ## Figures
 
-### Pipeline Overview
-
 ![Pipeline Overview](figures/pipeline.png)
-
-### RF-3DGS Output (Reference PLY Rendering)
-
 ![RF-3DGS Output](figures/rf3dgs_output.png)
-
-### RFDT vs Sionna Beam Energies
-
 ![RFDT vs Sionna RX 000](figures/rx_000.png)
-
-### UQ Dashboard (UT)
-
 ![UT UQ Dashboard](figures/uq_summary_dashboard_ut.png)
-
-### Variance Geometry Metric
-
 ![Variance Cosine Similarity](figures/variance_cosine_similarity.png)
 
-Additional figures are available in the `figures/` directory.
-
-## Tested Environment
-
-The following environment was used for the latest runs in this workspace:
+## Tested Environment (Reference)
 
 - Conda env: `rf-3dgs`
 - Python: 3.10.19
@@ -143,8 +97,6 @@ The following environment was used for the latest runs in this workspace:
 - TensorFlow: 2.15.1
 - PyTorch: 2.10.0.dev20251212+cu130
 - NumPy: 1.26.4
-
-If you need maximum compatibility with RF-3DGS training, follow their README (Python 3.8 and CUDA 11.7/11.8).
 
 ## Citation
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -393,7 +394,14 @@ def main():
         raise FileNotFoundError(f"PLY not found: {ply_path}")
 
     means, alpha, sh, scales, quat = load_scene(str(ply_path))
+
+    if DEVICE.type == "cuda":
+        torch.cuda.synchronize()
+    beam_start = time.perf_counter()
     E, dE = compute_beam_energy_and_grad(means, alpha, sh, scales, quat)
+    if DEVICE.type == "cuda":
+        torch.cuda.synchronize()
+    beam_elapsed = time.perf_counter() - beam_start
 
     out_dir = Path(resolve_path(args.output_dir, base_dir))
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -408,6 +416,7 @@ def main():
     max_row_diff = float(np.max(np.abs(E_np[0] - E_np[-1])))
 
     print("RFDT multi-Rx forward + gradient saved.")
+    print(f"Beam search compute time: {beam_elapsed:.3f} s")
     print(f"Energy: {energy_path}")
     print(f"Gradient: {grad_path}")
     print(f"RX row uniqueness (rounded 1e-4): {uniq_rows}/{E_np.shape[0]}")
