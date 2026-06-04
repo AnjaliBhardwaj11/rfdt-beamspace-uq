@@ -72,6 +72,7 @@ If you run from `scripts/`, pass a config path relative to that directory (for e
 
 - `forward.ply_path` must point to the RF-3DGS `point_cloud.ply`.
 - `sionna.scene_xml` must match the scene used during RF-3DGS training.
+- Mesh assets for `scenes/room_with_cube.xml` are included under `scenes/meshes_d`.
 - Relative paths are resolved against the config file location.
 - You may override the PLY path via `--ply-path` on `run_rfdt_rendering.py`.
 

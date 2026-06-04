@@ -71,7 +71,7 @@ Update these fields:
 
 ## 6. Optional RF-3DGS Preprocessing
 
-If you need to regenerate RF-3DGS training datasets, use the preprocessing scripts below. You must provide the mesh assets referenced by the scene XML (copy RF-3DGS `meshes_d` into `scenes/meshes_d`, or update the paths).
+If you need to regenerate RF-3DGS training datasets, use the preprocessing scripts below. The mesh assets for `scenes/room_with_cube.xml` are included under `scenes/meshes_d`; only custom scenes need additional mesh files or updated paths.
 
 Visual dataset (Blender):
 
