@@ -1,6 +1,6 @@
 {
   "forward": {
-    "ply_path": "path/to/point_cloud.ply",
+    "ply_path": "/absolute/path/to/point_cloud.ply",
     "freq_hz": 3500000000.0,
     "tx_pos_m": [3.5, 2.5, 2.7],
     "sh_order": 3,

@@ -7,6 +7,7 @@ Important prerequisite: the `point_cloud.ply` input is produced by the RF-3DGS p
 - RF-3DGS code: https://github.com/SunLab-UGA/RF-3DGS
 - RF-3DGS paper (arXiv): https://arxiv.org/abs/2411.19420
 - IEEE TWC page: https://ieeexplore.ieee.org/document/11355734
+- Reference point cloud used in our runs: [point_cloud.ply](https://indianinstituteofscience-my.sharepoint.com/:u:/g/personal/anjalib_iisc_ac_in/IQBWNQELjDoJRaUzx2iTrlGZASrUdmeeQKxQlhlXImeo-dY?e=OgblRk) (download and set `forward.ply_path`)
 
 ## At a Glance
 
@@ -45,6 +46,8 @@ Important prerequisite: the `point_cloud.ply` input is produced by the RF-3DGS p
    # Edit uq_config.json to set forward.ply_path and sionna.scene_xml
    ```
 
+   Download the reference PLY (link above) or your own RF-3DGS output, then set `forward.ply_path` to its local absolute path.
+
 2. Run the pipeline:
 
    ```bash
@@ -76,6 +79,7 @@ For full setup details, see [installation_usage.md](installation_usage.md).
 
 - "PLY path is empty": set `forward.ply_path` in `uq_config.json` or pass `--ply-path` to `scripts/run_rfdt_rendering.py`.
 - "PLY not found": use an absolute path or ensure the path is correct relative to the config file location.
+- "PLY not found": make sure the PLY is downloaded locally (link above) and `forward.ply_path` points to that file.
 - Running from `scripts/` without config: pass `--config ../uq_config.json` or set `UQ_CONFIG`.
 - Sionna scene/mesh errors: ensure the mesh assets referenced by the scene XML exist under `scenes/meshes_d` or update `sionna.scene_xml` and paths in the XML.
 - CUDA issues: try `--device cpu` on `scripts/run_rfdt_rendering.py` to validate the pipeline on CPU first.

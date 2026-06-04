@@ -48,7 +48,11 @@ Typical RF-3DGS output path:
 RF-3DGS/output/<experiment>/point_cloud/iteration_<N>/point_cloud.ply
 ```
 
-Copy or reference that file in `uq_config.json` under `forward.ply_path`.
+Reference point cloud used in our runs:
+
+- [point_cloud.ply](https://indianinstituteofscience-my.sharepoint.com/:u:/g/personal/anjalib_iisc_ac_in/IQBWNQELjDoJRaUzx2iTrlGZASrUdmeeQKxQlhlXImeo-dY?e=OgblRk)
+
+Download the PLY locally and set an absolute path in `uq_config.json` under `forward.ply_path`.
 
 ## 5. Prepare Configuration
 
