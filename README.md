@@ -28,6 +28,8 @@ Important prerequisite: the `point_cloud.ply` input is produced by the RF-3DGS p
 │   ├── plot_rfdt_vs_sionna_comparison.py
 │   └── run_smoke_tests.py
 ├── scripts/preprocessing/         # Optional RF-3DGS data generation
+├── docs/                          # Documentation
+│   └── scripts_reference.md       # Script and function reference
 ├── scenes/                        # Sionna scene XMLs (expects scenes/meshes_d)
 ├── figures/                       # Reference figures
 ├── requirements.txt               # Python dependencies
