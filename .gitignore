@@ -13,8 +13,6 @@ results/
 result/
 
 dataset*/
-meshes_d/
-scenes/meshes_d/
 
 *.npy
 *.npz
